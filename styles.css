@@ -1,0 +1,311 @@
+@font-face {
+  font-family: "Input Sans";
+  src: url("fonts/InputSans-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Input Sans";
+  src: url("fonts/InputSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Input Sans";
+  src: url("fonts/InputSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Input Sans";
+  src: url("fonts/InputSans-Bold.woff2") format("woff2");
+  font-weight: 600 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ocula";
+  src: url("fonts/Ocula.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+/* ===================================================================
+   Typographic scale — factor-of-2 system (mirrors skillit-bds logic)
+   Primary hierarchy: size doubles, weight steps up a tier per doubling,
+   leading tightens per doubling, tracking -0.02em per doubling from
+   the 1x base. Functional scale: labels/captions sit outside the
+   formula and open tracking instead of tightening it (small caps need
+   air, not grip) — same split skillit's own tokens/typography.md uses
+   between its primary hierarchy and functional UI scale.
+   Weight primitives are named once and referenced by every tier, same
+   as skillit's --weight-regular/--weight-medium/etc. pattern.
+   Exception: Ocula (.mark) is a single-weight display face — weight
+   and tracking formulas don't apply; leading is hand-tuned to protect
+   its descenders (Tironian et, long s), same caveat skillit's own
+   Text-16x note flags for aggressive leading at extreme sizes.
+   =================================================================== */
+:root {
+  /* Weight primitives */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Primary hierarchy */
+  --text-1x: 16px;
+  --text-1x-weight: var(--weight-regular);
+  --text-1x-weight-emphasis: var(--weight-semibold);
+  --text-1x-leading: 1.4;
+  --text-1x-tracking: -0.05em;
+
+  --text-2x: 32px;
+  --text-2x-weight: var(--weight-medium);
+  --text-2x-weight-bold: var(--weight-semibold);
+  --text-2x-leading: 1.2;
+  --text-2x-tracking: -0.07em;
+
+  --text-4x: 64px;
+  --text-4x-weight: var(
+    --weight-semibold
+  ); /* formula value — unused, see mark exception below */
+  --text-4x-leading: 1; /* formula value — unused, see mark exception below */
+  --text-4x-tracking: -0.09em; /* formula value — unused, see mark exception below */
+
+  /* Ocula mark exception — single weight face, hand-tuned leading/tracking */
+  --text-4x-mark-weight: var(--weight-regular);
+  --text-4x-mark-leading: 1.15;
+  --text-4x-mark-tracking: 0em;
+  --text-mark-sub-tracking: 0.01em;
+
+  /* Functional / label scale (exempt from doubling formula) */
+  --text-label: 12px;
+  --text-label-weight: var(--weight-medium);
+  --text-label-strong-weight: var(--weight-bold);
+  --text-label-tracking: 0.08em;
+  --text-label-leading: 1.4;
+
+  /* Mono tracking — opened slightly for monospace glyphs (index numerals,
+     wordmark) at the 12px label size */
+  --text-mono-tracking: 0.02em;
+
+  /* Caption role — reuses the 12px label size, but sentence-case prose
+     keeps body-style tight tracking instead of the label's open tracking */
+  --text-caption-weight: var(--weight-light);
+  --text-caption-tracking: var(--text-1x-tracking);
+  --text-caption-leading: var(--text-label-leading);
+
+  /* Body/prose weight used across running-copy blocks */
+  --text-body-weight: var(--weight-light);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Input Sans", "Inter Tight", sans-serif;
+  color: black;
+  background: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--text-1x);
+  font-weight: var(--text-1x-weight);
+  letter-spacing: var(--text-1x-tracking);
+  line-height: var(--text-1x-leading);
+  text-wrap: pretty;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+
+header {
+  padding: 40px 40px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  letter-spacing: var(--text-1x-tracking);
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--text-label);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-label-tracking);
+  line-height: var(--text-label-leading);
+  margin-bottom: 32px;
+}
+.top-row .wordmark {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-transform: none;
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--text-mono-tracking);
+}
+.top-row .wordmark:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mark {
+  font-family: "Ocula", "Input Sans", serif;
+  font-weight: var(--text-4x-mark-weight);
+  font-size: var(--text-4x);
+  line-height: var(--text-4x-mark-leading);
+  text-wrap: balance;
+  letter-spacing: var(--text-4x-mark-tracking);
+}
+.mark .sub {
+  font-family: "Input Sans", "Inter Tight", sans-serif;
+  font-weight: var(--text-1x-weight);
+  font-size: var(--text-1x);
+  line-height: var(--text-1x-leading);
+  display: block;
+  margin-top: 10px;
+  letter-spacing: var(--text-mark-sub-tracking);
+}
+.statement {
+  max-width: 34em;
+  margin-top: 28px;
+  font-size: var(--text-1x);
+  font-weight: var(--text-body-weight);
+  letter-spacing: var(--text-1x-tracking);
+}
+.statement strong {
+  font-weight: var(--text-1x-weight-emphasis);
+}
+
+section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+h2 {
+  font-size: var(--text-1x);
+  font-weight: var(--text-label-strong-weight);
+  letter-spacing: var(--text-label-tracking);
+  line-height: var(--text-label-leading);
+  margin: 48px 0 12px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 8px;
+}
+
+.index {
+  border-bottom: 1px solid #000;
+}
+.index-row {
+  display: grid;
+  grid-template-columns: 56px 1fr 280px 20px;
+  align-items: center;
+  column-gap: 20px;
+  padding: 24px 8px;
+  border-top: 1px solid #000;
+}
+.index-row .num {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--text-label);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--text-mono-tracking);
+  line-height: var(--text-label-leading);
+}
+.index-row .title {
+  font-weight: var(--text-2x-weight-bold);
+  font-size: var(--text-2x);
+  line-height: var(--text-2x-leading);
+  text-wrap: balance;
+  letter-spacing: var(--text-2x-tracking);
+}
+.index-row .title small {
+  display: block;
+  font-weight: var(--text-caption-weight);
+  font-size: var(--text-label);
+  margin-top: 5px;
+  line-height: var(--text-caption-leading);
+  letter-spacing: var(--text-caption-tracking);
+}
+.index-row .blurb {
+  text-align: right;
+  font-weight: var(--text-caption-weight);
+  font-size: var(--text-label);
+  letter-spacing: var(--text-caption-tracking);
+  line-height: var(--text-label-leading);
+}
+.index-row .arrow {
+  font-weight: var(--weight-regular);
+  font-size: var(--text-1x);
+  text-align: right;
+  transition: transform 0.15s ease;
+}
+
+.index-row:hover .title {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.index-row:hover .arrow {
+  transform: translateX(3px);
+}
+
+.cta {
+  font-size: var(--text-1x);
+  font-weight: var(--text-body-weight);
+  max-width: 30em;
+  margin-bottom: 20px;
+}
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  list-style: none;
+  padding-bottom: 48px;
+}
+.contact li a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+footer {
+  border-top: 1px solid #000;
+  padding: 22px 40px 40px;
+  margin-top: 48px;
+}
+.credits {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-weight: var(--text-caption-weight);
+  font-size: var(--text-label);
+  letter-spacing: var(--text-caption-tracking);
+  line-height: var(--text-caption-leading);
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 32px 20px 20px;
+  }
+  section {
+    padding: 0 20px;
+  }
+  footer {
+    padding: 20px;
+  }
+  .mark {
+    font-size: var(--text-2x);
+  }
+  .index-row {
+    grid-template-columns: 32px 1fr;
+    grid-template-areas: "num title" ". blurb";
+    row-gap: 6px;
+  }
+  .index-row .num {
+    grid-area: num;
+  }
+  .index-row .title {
+    grid-area: title;
+  }
+  .index-row .blurb {
+    grid-area: blurb;
+    text-align: left;
+  }
+  .index-row .arrow {
+    display: none;
+  }
+}
