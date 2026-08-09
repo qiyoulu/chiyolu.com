@@ -324,12 +324,14 @@ footer {
   display: block;
 }
 
-/* Dark mode */
+/* Dark mode — a designed warm night, not an inverted flip:
+   background stays out of true-black (avoids OLED smear + harsh
+   contrast), text stays out of true-white (avoids glare), both
+   hold the same warm/brown hue family as the light paper + ink. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-paper: #0f0e0c;
-    --color-ink: #f5f4f0;
-    --color-ink: #3a3935;
+    --color-paper: #1a1712;
+    --color-ink: #e9e3d5;
   }
 }
 
@@ -337,13 +339,11 @@ footer {
 [data-theme="light"] {
   --color-paper: #faf8f5;
   --color-ink: #0f0e0c;
-  --color-ink: #2b2a27;
   color-scheme: light;
 }
 [data-theme="dark"] {
-  --color-paper: #0f0e0c;
-  --color-ink: #f5f4f0;
-  --color-ink: #3a3935;
+  --color-paper: #1a1712;
+  --color-ink: #e9e3d5;
   color-scheme: dark;
 }
 
@@ -384,5 +384,16 @@ footer {
   }
   .index-row .arrow {
     display: none;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
   }
 }
