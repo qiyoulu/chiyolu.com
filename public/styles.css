@@ -66,40 +66,26 @@
   --text-1x-tracking: -0.05em;
 
   --text-2x: 32px;
-  --text-2x-weight: var(--weight-medium);
   --text-2x-weight-bold: var(--weight-semibold);
   --text-2x-leading: 1.2;
   --text-2x-tracking: -0.07em;
 
   --text-4x: 64px;
-  --text-4x-weight: var(
-    --weight-semibold
-  ); /* formula value — unused, see mark exception below */
-  --text-4x-leading: 1; /* formula value — unused, see mark exception below */
-  --text-4x-tracking: -0.09em; /* formula value — unused, see mark exception below */
 
   /* Ocula mark exception — single weight face, hand-tuned leading/tracking */
   --text-4x-mark-weight: var(--weight-regular);
   --text-4x-mark-leading: 1.15;
   --text-4x-mark-tracking: 0em;
-  --text-mark-sub-tracking: 0.01em;
 
-  /* Functional / label scale (exempt from doubling formula) */
-  --text-label: 12px;
-  --text-label-weight: var(--weight-medium);
-  --text-label-strong-weight: var(--weight-bold);
-  --text-label-tracking: 0.08em;
-  --text-label-leading: 1.4;
-
-  /* Mono tracking — opened slightly for monospace glyphs (index numerals,
-     wordmark) at the 12px label size */
-  --text-mono-tracking: 0.02em;
-
-  /* Caption role — reuses the 12px label size, but sentence-case prose
-     keeps body-style tight tracking instead of the label's open tracking */
-  --text-caption-weight: var(--weight-light);
-  --text-caption-tracking: var(--text-1x-tracking);
-  --text-caption-leading: var(--text-label-leading);
+  /* Functional scale (exempt from doubling formula) — 0.75x the 1x base,
+     covers both UI labels (open tracking) and sentence-case captions
+     (tight, body-style tracking) at the same 12px size */
+  --text-0-75x: 12px;
+  --text-0-75x-leading: 1.4;
+  --text-0-75x-tracking: -0.04em; /* label/UI variant — open tracking */
+  --text-0-75x-tracking-tight: var(--text-1x-tracking); /* caption/prose variant */
+  --text-0-75x-weight-strong: var(--weight-bold); /* label emphasis, e.g. h2 */
+  --text-0-75x-weight-light: var(--weight-light); /* caption/prose weight */
 
   /* Body/prose weight used across running-copy blocks */
   --text-body-weight: var(--weight-light);
@@ -109,8 +95,20 @@
   padding: 0;
   box-sizing: border-box;
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 body {
-  font-family: "Input Sans", "Inter Tight", sans-serif;
+  font-family: "Input Sans", sans-serif;
   color: var(--color-ink);
   background: var(--color-paper);
   -webkit-font-smoothing: antialiased;
@@ -130,6 +128,15 @@ a {
   color: var(--color-ink);
   text-decoration: none;
 }
+a:focus-visible,
+button:focus-visible {
+  outline: 1px solid var(--color-ink);
+  outline-offset: 4px;
+}
+.index-row:focus-visible {
+  outline: 1px solid var(--color-ink);
+  outline-offset: -4px;
+}
 
 header {
   padding: 40px 40px 24px;
@@ -140,13 +147,26 @@ header {
 
 .top-row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
-  font-size: var(--text-label);
+  gap: 12px 16px;
+  font-size: var(--text-0-75x);
   font-weight: var(--weight-regular);
-  letter-spacing: var(--text-label-tracking);
-  line-height: var(--text-label-leading);
+  letter-spacing: var(--text-0-75x-tracking);
+  line-height: var(--text-0-75x-leading);
   margin-bottom: 32px;
+}
+.top-row-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 16px;
+}
+.top-row-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .mark {
@@ -158,13 +178,13 @@ header {
   letter-spacing: var(--text-4x-mark-tracking);
 }
 .mark .sub {
-  font-family: "Input Sans", "Inter Tight", sans-serif;
+  font-family: "Input Sans", sans-serif;
   font-weight: var(--text-1x-weight);
   font-size: var(--text-1x);
   line-height: var(--text-1x-leading);
   display: block;
   margin-top: 10px;
-  letter-spacing: var(--text-mark-sub-tracking);
+  letter-spacing: var(--text-1x-tracking);
 }
 .statement {
   max-width: 34em;
@@ -184,15 +204,24 @@ section {
 }
 h2 {
   font-size: var(--text-1x);
-  font-weight: var(--text-label-strong-weight);
-  letter-spacing: var(--text-label-tracking);
-  line-height: var(--text-label-leading);
+  font-weight: var(--text-0-75x-weight-strong);
+  letter-spacing: var(--text-0-75x-tracking);
+  line-height: var(--text-0-75x-leading);
   margin: 48px 0 12px;
   border-bottom: 1px solid var(--color-ink);
   padding-bottom: 8px;
 }
 
 .index {
+  border-bottom: 1px solid var(--color-ink);
+  position: relative;
+}
+.index::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -12px;
   border-bottom: 1px solid var(--color-ink);
 }
 .index-row {
@@ -203,12 +232,25 @@ h2 {
   padding: 24px 8px;
   border-top: 1px solid var(--color-ink);
 }
+.index-row .num,
+.index-row .title,
+.index-row .blurb,
+.index-row .arrow {
+  transition: transform 0.18s ease;
+}
+.index-row:hover .num,
+.index-row:hover .title {
+  transform: translateX(-8px);
+}
+.index-row:hover .blurb,
+.index-row:hover .arrow {
+  transform: translateX(8px);
+}
 .index-row .num {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: var(--text-label);
+  font-size: var(--text-0-75x);
   font-weight: var(--weight-regular);
-  letter-spacing: var(--text-mono-tracking);
-  line-height: var(--text-label-leading);
+  letter-spacing: var(--text-0-75x-tracking);
+  line-height: var(--text-0-75x-leading);
 }
 .index-row .title {
   font-weight: var(--text-2x-weight-bold);
@@ -219,73 +261,53 @@ h2 {
 }
 .index-row .title small {
   display: block;
-  font-weight: var(--text-caption-weight);
-  font-size: var(--text-label);
+  font-weight: var(--text-0-75x-weight-light);
+  font-size: var(--text-0-75x);
   margin-top: 5px;
-  line-height: var(--text-caption-leading);
-  letter-spacing: var(--text-caption-tracking);
+  line-height: var(--text-0-75x-leading);
+  letter-spacing: var(--text-0-75x-tracking-tight);
 }
 .index-row .blurb {
   text-align: right;
-  font-weight: var(--text-caption-weight);
-  font-size: var(--text-label);
-  letter-spacing: var(--text-caption-tracking);
-  line-height: var(--text-label-leading);
+  font-weight: var(--text-0-75x-weight-light);
+  font-size: var(--text-0-75x);
+  letter-spacing: var(--text-0-75x-tracking-tight);
+  line-height: var(--text-0-75x-leading);
 }
 .index-row .arrow {
   font-weight: var(--weight-regular);
   font-size: var(--text-1x);
   text-align: right;
-  transition: transform 0.15s ease;
 }
 
-.index-row:hover .title {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.index-row:hover .arrow {
-  transform: translateX(4px);
-}
-
-.cta {
-  font-size: var(--text-1x);
-  font-weight: var(--text-body-weight);
-  max-width: 30em;
-  margin-top: 48px;
-  margin-bottom: 20px;
-}
 .contact {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 12px 24px;
   list-style: none;
-  padding-bottom: 48px;
+  margin: 0;
+  padding: 0;
 }
 .contact li a:hover {
   text-decoration: underline;
-  text-underline-offset: 4px;
+  text-underline-offset: 2px;
 }
 
 footer {
-  border-top: 1px solid var(--color-ink);
+  max-width: 1200px;
+  margin: 48px auto 0;
   padding: 22px 40px 40px;
-  margin-top: 48px;
 }
 .credits {
-  max-width: 1200px;
-  margin: 0 auto;
-  font-weight: var(--text-caption-weight);
-  font-size: var(--text-label);
-  letter-spacing: var(--text-caption-tracking);
-  line-height: var(--text-caption-leading);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-0-75x);
+  letter-spacing: var(--text-0-75x-tracking);
+  line-height: var(--text-0-75x-leading);
 }
 
-/* Dark mode toggle button */
+/* Dark mode toggle button — lives in the top row, scrolls with the page */
 .theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
+  position: static;
   width: 40px;
   height: 40px;
   border: none;
@@ -349,8 +371,6 @@ footer {
 
 @media (max-width: 768px) {
   .theme-toggle {
-    top: 16px;
-    right: 16px;
     width: 40px;
     height: 40px;
     font-size: 18px;
@@ -363,9 +383,6 @@ footer {
   }
   footer {
     padding: 20px;
-  }
-  .mark {
-    font-size: var(--text-2x);
   }
   .index-row {
     grid-template-columns: 32px 1fr;
@@ -384,6 +401,16 @@ footer {
   }
   .index-row .arrow {
     display: none;
+  }
+  .index-row .num,
+  .index-row .title,
+  .index-row .blurb {
+    transition: transform 0.18s ease;
+  }
+  .index-row:hover .num,
+  .index-row:hover .title,
+  .index-row:hover .blurb {
+    transform: translateX(-8px);
   }
 }
 

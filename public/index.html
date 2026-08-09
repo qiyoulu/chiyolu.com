@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chiyo Lu — Brand Systems &amp; Information Designer</title>
+    <title>Chiyo Lu — Brand Identity &amp; Systems Designer</title>
     <meta
       name="description"
-      content="Portfolio of Chiyo Lu, brand systems and information designer. Visual systems, information architecture, motion identity, typographic systems, generative design."
+      content="Portfolio of Chiyo Lu, brand identity & systems designer. Visual systems, information architecture, motion identity, typographic systems, generative design."
     />
     <meta
       property="og:title"
-      content="Chiyo Lu — Brand Systems &amp; Information Designer"
+      content="Chiyo Lu — Brand Identity &amp; Systems Designer"
     />
     <meta
       property="og:description"
@@ -25,6 +25,19 @@
     <meta name="twitter:image" content="https://chiyolu.com/og-image.png" />
     <meta name="theme-color" content="#faf8f5" />
     <meta name="color-scheme" content="light dark" />
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Chiyo Lu",
+  "jobTitle": "Brand Identity & Systems Designer",
+  "url": "https://chiyolu.com",
+  "sameAs": [
+    "https://www.linkedin.com/in/qiyoulu/"
+  ],
+  "email": "mailto:chiyo@chiyolu.com"
+}
+</script>
     <link rel="canonical" href="https://chiyolu.com" />
     <script>
       (function () {
@@ -32,7 +45,10 @@
           var theme = localStorage.getItem("theme");
           document.documentElement.setAttribute(
             "data-theme",
-            theme || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+            theme ||
+              (window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light"),
           );
         } catch (e) {
           document.documentElement.setAttribute("data-theme", "light");
@@ -40,9 +56,19 @@
       })();
     </script>
     <link rel="icon" href="favicon.png" type="image/png" />
-    <link rel="icon" href="favicon-dark.png" type="image/png" media="(prefers-color-scheme: dark)" />
+    <link
+      rel="icon"
+      href="favicon-dark.png"
+      type="image/png"
+      media="(prefers-color-scheme: dark)"
+    />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="favicon-dark.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
+    <link
+      rel="icon"
+      href="favicon-dark.svg"
+      type="image/svg+xml"
+      media="(prefers-color-scheme: dark)"
+    />
     <link rel="apple-touch-icon" href="favicon.png" />
     <link rel="dns-prefetch" href="https://www.linkedin.com" />
     <link
@@ -62,28 +88,69 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <button class="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
-      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
-    </button>
+    <!-- theme toggle lives in .top-row -->
     <header>
       <div class="top-row">
-        <span>Brooklyn, NY &nbsp;·&nbsp; Open to full-time roles</span>
+        <div class="top-row-left">
+          <ul class="contact">
+            <li><a href="mailto:chiyo@chiyolu.com">chiyo@chiyolu.com</a></li>
+            <li>
+              <a
+                href="https://www.linkedin.com/in/qiyoulu/"
+                target="_blank"
+                rel="noopener"
+                >LinkedIn<span class="sr-only"> (opens in a new tab)</span></a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="top-row-right">
+          <button
+            class="theme-toggle"
+            aria-label="Switch to dark mode"
+            title="Switch to dark mode"
+          >
+            <svg
+              class="icon-sun"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+              />
+            </svg>
+            <svg
+              class="icon-moon"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div class="mark">
+      <h1 class="mark">
         Chiyo Lu
         <span class="sub">Brand Identity &amp; Systems Designer</span>
-      </div>
+      </h1>
       <p class="statement">
         I design visual systems, not static assets — applying the logic of
         computer science and linguistics to build
         <strong>rules-based frameworks</strong>
-        that stay functional, scalable, and systematic under production.
+        that stay functional, scalable, and durable in production.
       </p>
     </header>
 
@@ -108,6 +175,7 @@
             >Type System · Wayfinding · Programmatic Color</span
           >
           <span class="arrow">→</span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
         <a
           class="index-row"
@@ -124,6 +192,7 @@
           >
           <span class="blurb">Generative Identity · Heritage-as-Parameter</span>
           <span class="arrow">→</span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
         <a
           class="index-row"
@@ -140,6 +209,7 @@
           >
           <span class="blurb">Type Design · OpenType Features</span>
           <span class="arrow">→</span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
         <a
           class="index-row"
@@ -150,12 +220,14 @@
           <span class="num">04</span>
           <span class="title"
             >P↔M↔F<small
-              >Mapping Information Architecture — 85 years of museum data
-              structured into a functioning pocket-map tool.</small
+              >Platform, Market, Forum — an 85-year taxonomy of civic
+              communication design, mapped into a functioning museum
+              pocket-map tool.</small
             ></span
           >
           <span class="blurb">Taxonomy · Data Visualization</span>
           <span class="arrow">→</span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
         <a
           class="index-row"
@@ -172,30 +244,15 @@
           >
           <span class="blurb">Motion Identity · DOOH</span>
           <span class="arrow">→</span>
+          <span class="sr-only"> (opens in a new tab)</span>
         </a>
       </nav>
-
-      <p class="cta">
-        Open to full-time roles and select collaborations. <br />
-        I reply within a day.
-      </p>
-      <ul class="contact">
-        <li><a href="mailto:chiyo@chiyolu.com">chiyo@chiyolu.com</a></li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/qiyoulu/"
-            target="_blank"
-            rel="noopener"
-            >LinkedIn</a
-          >
-        </li>
-      </ul>
     </section>
 
     <footer>
       <p class="credits">
-        Set in Ocula by Chiyo Lu, Input by David Jonathan Ross, and Inter by
-        Rasmus Andersson. © <span id="yr">2026</span> Chiyo Lu.
+        Set in Ocula by Chiyo Lu and Input by David Jonathan Ross. ©
+        <span id="yr">2026</span> Chiyo Lu.
       </p>
     </footer>
 
