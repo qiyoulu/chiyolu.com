@@ -1,8 +1,8 @@
 # chiyolu.com
 
-Portfolio site for **Chiyo Lu** — brand identity & systems designer. Static, dependency-free front end deployed on Cloudflare Pages.
+Portfolio site for **Chiyo Lu** — brand identity & systems designer. Hand-built static front end (no framework, no build step, no dependencies) deployed on Cloudflare Pages. Live at [chiyolu.com](https://chiyolu.com). Source lives in `public/`.
 
-Built by hand: no framework, no build step. The entire site is three source files in `public/`.
+The docs below cover local dev, deploy, and a set of deliberate decisions (sizing, accessibility, the token system) worth reading before changing anything.
 
 ## Project status
 
@@ -65,7 +65,7 @@ npx wrangler pages deploy public --project-name chiyolu --branch main
 
 ## Project identity & invariants
 
-This section is for LLM agents and human maintainers alike. **Do not break these rules without explicit user approval.**
+Decisions that were made deliberately, not by accident. **Do not change these without explicit approval** — if something here looks wrong, ask before "fixing" it.
 
 ### Wordmark (`.mark`)
 
