@@ -4,7 +4,7 @@
   "description": "chiyolu.com portfolio site",
   "main": "script.js",
   "scripts": {
-    "deploy": "wrangler pages deploy"
+    "deploy": "wrangler pages deploy public"
   },
   "keywords": [],
   "author": "",

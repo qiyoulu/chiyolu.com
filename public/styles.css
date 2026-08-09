@@ -44,6 +44,13 @@
    Text-16x note flags for aggressive leading at extreme sizes.
    =================================================================== */
 :root {
+  /* Color tokens — light mode (warm paper) */
+  --color-paper: #faf8f5;
+  --color-ink: #0f0e0c;
+  /* Anti-halation: light text on light background */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   /* Weight primitives */
   --weight-light: 300;
   --weight-regular: 400;
@@ -104,18 +111,23 @@
 }
 body {
   font-family: "Input Sans", "Inter Tight", sans-serif;
-  color: black;
-  background: white;
+  color: var(--color-ink);
+  background: var(--color-paper);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   font-size: var(--text-1x);
   font-weight: var(--text-1x-weight);
   letter-spacing: var(--text-1x-tracking);
   line-height: var(--text-1x-leading);
   text-wrap: pretty;
+  transition:
+    color 0.3s ease,
+    background 0.3s ease;
+  color-scheme: light dark;
 }
 a {
-  color: black;
+  color: var(--color-ink);
   text-decoration: none;
 }
 
@@ -131,20 +143,10 @@ header {
   justify-content: space-between;
   align-items: baseline;
   font-size: var(--text-label);
-  font-weight: var(--text-label-weight);
+  font-weight: var(--weight-regular);
   letter-spacing: var(--text-label-tracking);
   line-height: var(--text-label-leading);
   margin-bottom: 32px;
-}
-.top-row .wordmark {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  text-transform: none;
-  font-weight: var(--weight-regular);
-  letter-spacing: var(--text-mono-tracking);
-}
-.top-row .wordmark:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .mark {
@@ -186,20 +188,20 @@ h2 {
   letter-spacing: var(--text-label-tracking);
   line-height: var(--text-label-leading);
   margin: 48px 0 12px;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--color-ink);
   padding-bottom: 8px;
 }
 
 .index {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid var(--color-ink);
 }
 .index-row {
   display: grid;
-  grid-template-columns: 56px 1fr 280px 20px;
+  grid-template-columns: 56px 1fr 340px 20px;
   align-items: center;
   column-gap: 20px;
   padding: 24px 8px;
-  border-top: 1px solid #000;
+  border-top: 1px solid var(--color-ink);
 }
 .index-row .num {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -242,13 +244,14 @@ h2 {
   text-underline-offset: 4px;
 }
 .index-row:hover .arrow {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 .cta {
   font-size: var(--text-1x);
   font-weight: var(--text-body-weight);
   max-width: 30em;
+  margin-top: 48px;
   margin-bottom: 20px;
 }
 .contact {
@@ -260,11 +263,11 @@ h2 {
 }
 .contact li a:hover {
   text-decoration: underline;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
 }
 
 footer {
-  border-top: 1px solid #000;
+  border-top: 1px solid var(--color-ink);
   padding: 22px 40px 40px;
   margin-top: 48px;
 }
@@ -277,7 +280,81 @@ footer {
   line-height: var(--text-caption-leading);
 }
 
+/* Dark mode toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--color-ink);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    color 0.3s ease,
+    opacity 0.2s ease;
+  padding: 0;
+  font-family: inherit;
+}
+.theme-toggle:hover {
+  opacity: 0.6;
+}
+.theme-toggle svg {
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.theme-toggle:active svg {
+  transform: rotate(180deg);
+}
+/* Icon shows the state a click will switch *to* */
+.icon-sun,
+.icon-moon {
+  display: none;
+  position: absolute;
+}
+[data-theme="light"] .theme-toggle .icon-moon {
+  display: block;
+}
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #0f0e0c;
+    --color-ink: #f5f4f0;
+    --color-ink: #3a3935;
+  }
+}
+
+/* Respect user's manual toggle via data attribute */
+[data-theme="light"] {
+  --color-paper: #faf8f5;
+  --color-ink: #0f0e0c;
+  --color-ink: #2b2a27;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --color-paper: #0f0e0c;
+  --color-ink: #f5f4f0;
+  --color-ink: #3a3935;
+  color-scheme: dark;
+}
+
 @media (max-width: 768px) {
+  .theme-toggle {
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
   header {
     padding: 32px 20px 20px;
   }
